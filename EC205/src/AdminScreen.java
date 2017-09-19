@@ -9,10 +9,17 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.AbstractListModel;
+import javax.swing.JTextPane;
+import javax.swing.JTable;
 
 public class AdminScreen extends JFrame {
 
 	private JPanel contentPane;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -60,7 +67,59 @@ public class AdminScreen extends JFrame {
 		btnChangeUser.setBounds(400, 0, 117, 29);
 		panel.add(btnChangeUser);
 		
+		JButton btnRegister = new JButton("Register New User");
+		btnRegister.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main.openRegisterScreen();
+			}
+		});
+		btnRegister.setBounds(6, 48, 195, 46);
+		panel.add(btnRegister);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(6, 106, 511, 217);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
+		
+		// NOT WORKING
+		table = new JTable(Main.getUsersList(), getColumnNames());
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setBounds(6, 209, 499, -206);
+		panel_1.add(table);
+		
+		JButton btnDeleteUser = new JButton("Delete User");
+		btnDeleteUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Main.deleteUser(getSelectedUser());
+				} catch (UnknownUserException ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage());
+				}
+			}
+		});
+		btnDeleteUser.setBounds(351, 48, 166, 46);
+		panel.add(btnDeleteUser);
+		
+		addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        Main.Close();
+		    }
+		});
+		
 		setVisible(true);
+	}
+	
+	private String[] getColumnNames() 
+	{
+		String[] r = {"username", "password"};
+		return r;
+	}
+	
+	private String getSelectedUser() 
+	{
+		// TODO
+		return "";
 	}
 	
 	@Override
@@ -69,5 +128,4 @@ public class AdminScreen extends JFrame {
 		// reset necessary stuff
 		super.setVisible(b);
 	}
-
 }
