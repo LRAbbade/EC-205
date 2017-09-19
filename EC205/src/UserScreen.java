@@ -60,6 +60,13 @@ public class UserScreen extends JFrame {
 		btnNewButton.setBounds(417, 0, 117, 29);
 		panel.add(btnNewButton);
 		
+		addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        Main.Close();
+		    }
+		});
+		
 		setVisible(true);
 	}
 	

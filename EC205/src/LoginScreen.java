@@ -91,21 +91,12 @@ public class LoginScreen extends JFrame {
 		btnSignIn.setBounds(33, 137, 170, 46);
 		panel.add(btnSignIn);
 		
-		JButton btnSignUp = new JButton("Sign Up");
-		btnSignUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					if (!signUp()) JOptionPane.showMessageDialog(null, "User already exists");
-					else JOptionPane.showMessageDialog(null, "User registered.");
-				} catch (InvalidPasswordException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage());
-				} catch (InvalidUsernameException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage());
-				}
-			}
+		addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        Main.Close();
+		    }
 		});
-		btnSignUp.setBounds(332, 137, 170, 46);
-		panel.add(btnSignUp);
 		
 		setVisible(true);
 	}
@@ -120,53 +111,6 @@ public class LoginScreen extends JFrame {
 		else throw new UnknownUserException();
 	}
 	
-	private boolean signUp() throws InvalidPasswordException, InvalidUsernameException
-	{
-		String username = textFieldUser.getText();
-		String password = textFieldPassword.getText();
-		
-		if (username.equals("admin")) 
-		{ 
-			JOptionPane.showMessageDialog(null, "Cannot register as admin"); 
-			return false;
-		}
-		
-		if (!validUsername(username)) throw new InvalidUsernameException();
-		if (!validPassword(password)) throw new InvalidPasswordException();
-		if (Main.findUser(username, password)) return false;
-		
-		try {
-			Main.registerUser(username, password);
-		} catch (UserAlreadyRegisteredException ex) {
-			JOptionPane.showMessageDialog(null, ex.getMessage());
-		}
-		return true;
-	}
-	
-	private boolean validUsername(String s) 
-	{
-		for (int i = 0; i < s.length(); i++) 
-		{
-			char c = s.charAt(i);
-			if (!(c >= 'a' && c <= 'z') && !(c >= 'A' && c <= 'Z')) return false;
-		}
-		
-		return true;
-	}
-	
-	private boolean validPassword(String s) 
-	{
-		if (s.length() < 5) return false;
-		
-		for (int i = 0; i < s.length(); i++) 
-		{
-			char c = s.charAt(i);
-			if (!(c >= 'a' && c <= 'z') && !(c >= 'A' && c <= 'Z') && !(c >= '0' && c <= '9')) return false;
-		}
-		
-		return true;
-	}
-	
 	@Override
 	public void setVisible(boolean b) 
 	{
@@ -174,4 +118,5 @@ public class LoginScreen extends JFrame {
 		textFieldUser.setText("");
 		super.setVisible(b);
 	}
+	
 }
