@@ -1,4 +1,5 @@
 
+@SuppressWarnings("serial")
 public class UserAlreadyRegisteredException extends Exception
 {
 	@Override

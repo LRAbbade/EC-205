@@ -1,4 +1,5 @@
 
+@SuppressWarnings("serial")
 public class InvalidPasswordException extends Exception
 {
 	@Override

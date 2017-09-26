@@ -1,6 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,35 +10,19 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
-public class LoginScreen extends JFrame {
-
+@SuppressWarnings("serial")
+public class LoginScreen extends JFrame 
+{
 	private JPanel contentPane;
 	private JTextField textFieldUser;
 	private JTextField textFieldPassword;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginScreen frame = new LoginScreen();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
-	public LoginScreen() {
+	public LoginScreen() 
+	{	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 535, 235);
 		contentPane = new JPanel();
@@ -67,9 +49,9 @@ public class LoginScreen extends JFrame {
 		panel.add(textFieldPassword);
 		textFieldPassword.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("User");
+		JLabel lblNewLabel_1 = new JLabel("Username");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_1.setBounds(33, 66, 61, 16);
+		lblNewLabel_1.setBounds(6, 66, 88, 16);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Password");
