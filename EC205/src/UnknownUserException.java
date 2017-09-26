@@ -1,4 +1,5 @@
 
+@SuppressWarnings("serial")
 public class UnknownUserException extends Exception
 {
 	@Override

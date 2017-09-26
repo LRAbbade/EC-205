@@ -1,6 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -9,38 +7,17 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.AbstractListModel;
-import javax.swing.JTextPane;
-import javax.swing.JTable;
 
-public class AdminScreen extends JFrame {
-
+@SuppressWarnings("serial")
+public class AdminScreen extends JFrame 
+{
 	private JPanel contentPane;
-	private JTable table;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AdminScreen frame = new AdminScreen();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public AdminScreen() {
+	public AdminScreen() 
+	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 533, 361);
 		contentPane = new JPanel();
@@ -81,20 +58,10 @@ public class AdminScreen extends JFrame {
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
-		// NOT WORKING
-		table = new JTable(Main.getUsersList(), getColumnNames());
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setBounds(6, 209, 499, -206);
-		panel_1.add(table);
-		
 		JButton btnDeleteUser = new JButton("Delete User");
 		btnDeleteUser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Main.deleteUser(getSelectedUser());
-				} catch (UnknownUserException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage());
-				}
+				// TODO
 			}
 		});
 		btnDeleteUser.setBounds(351, 48, 166, 46);
@@ -108,18 +75,6 @@ public class AdminScreen extends JFrame {
 		});
 		
 		setVisible(true);
-	}
-	
-	private String[] getColumnNames() 
-	{
-		String[] r = {"username", "password"};
-		return r;
-	}
-	
-	private String getSelectedUser() 
-	{
-		// TODO
-		return "";
 	}
 	
 	@Override

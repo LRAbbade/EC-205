@@ -1,4 +1,5 @@
 
+@SuppressWarnings("serial")
 public class InvalidUsernameException extends Exception
 {
 	@Override

@@ -1,16 +1,16 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 
 public class Main 
 {
-	private static HashMap <String, String> users;
+	private static HashMap <String, User> users;
 	private static LoginScreen loginScreen;
 	private static AdminScreen admScreen;
 	private static UserScreen userScreen;
@@ -51,8 +51,8 @@ public class Main
 		
 		while (br.ready()) 
 		{
-			String[] line = br.readLine().split(" ");
-			users.put(line[0], line[1]);
+			User u = new User(br.readLine());
+			users.put(u.nome, u);
 		}
 		
 		br.close();
@@ -64,7 +64,7 @@ public class Main
 		
 		for (String s : users.keySet()) 
 		{
-			br.write(s + " " + users.get(s));
+			br.write(users.get(s).toString());
 			br.newLine();
 		}
 		
@@ -92,16 +92,17 @@ public class Main
 		else userScreen.setVisible(true);
 	}
 	
-	public static String[][] getUsersList() 
+	public static User[] getUsersList() 
 	{
-		String[][] r = new String[users.size()][2];
+		User[] r = new User[users.size()];
 		int pos = 0;
 		
 		for (String s : users.keySet()) 
 		{
-			r[pos][0] = s;
-			r[pos++][1] = users.get(s);
+			r[pos++] = users.get(s);
 		}
+		
+		Arrays.sort(r);
 		
 		return r;
 	}
@@ -114,15 +115,15 @@ public class Main
 	public static boolean findUser(String username, String password) 
 	{
 		if (users.containsKey(username))
-			if (users.get(username).equals(password)) return true;
+			if (users.get(username).senha.equals(password)) return true;
 		
 		return false;
 	}
 	
-	public static void registerUser(String username, String password) throws UserAlreadyRegisteredException
+	public static void registerUser(String username, User user) throws UserAlreadyRegisteredException
 	{
 		if (users.containsKey(username)) throw new UserAlreadyRegisteredException();
-		users.put(username, password);
+		users.put(username, user);
 	}
 	
 	public static void changeUser() 
