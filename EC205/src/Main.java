@@ -15,9 +15,12 @@ public class Main
 	private static AdminScreen admScreen;
 	private static UserScreen userScreen;
 	private static RegisterScreen registerScreen;
+	public static int[] stringSizes;
 	
 	public static void main(String[] args) 
 	{
+		stringSizes = new int[10];
+		
 		try {
 			loadUsers();
 		} catch (IOException e) {
@@ -52,10 +55,31 @@ public class Main
 		while (br.ready()) 
 		{
 			User u = new User(br.readLine());
+			setStringSizes(u);	
 			users.put(u.nome, u);
 		}
 		
 		br.close();
+	}
+	
+	private static void setStringSizes(User u) 
+	{
+		int idSize = (new Integer(u.personalId)).toString().length();
+		
+		if (idSize > stringSizes[0]) stringSizes[0] = idSize;
+		if (u.nome.length() > stringSizes[1]) stringSizes[1] = u.nome.length();
+		if (u.senha.length() > stringSizes[2]) stringSizes[2] = u.senha.length();
+		if (u.cargo.length() > stringSizes[3]) stringSizes[3] = u.cargo.length();
+		if (u.rua.length() > stringSizes[4]) stringSizes[4] = u.rua.length();
+		if (u.bairro.length() > stringSizes[5]) stringSizes[5] = u.bairro.length();
+		if (u.cidade.length() > stringSizes[6]) stringSizes[6] = u.cidade.length();
+		if (u.telefone.length() > stringSizes[7]) stringSizes[7] = u.telefone.length();
+		
+		int birthSize = (new Integer(u.birthYear)).toString().length();
+		int cpfSize = (new Integer(u.cpf)).toString().length();
+		
+		if (birthSize > stringSizes[8]) stringSizes[8] = birthSize;
+		if (cpfSize > stringSizes[9]) stringSizes[9] = cpfSize;
 	}
 	
 	private static void saveUsers() throws IOException 
