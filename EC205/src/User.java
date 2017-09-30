@@ -31,23 +31,24 @@ public class User implements Comparable<User>
 		try {
 			String[] arr = line.split("#");
 			
-			nome = arr[0];
-			senha = arr[1];
+			personalId = new Integer(arr[0]);
+			nome = arr[1];
+			senha = arr[2];
 			
-			if (arr.length == 2) 
+			if (arr.length == 3) 
 			{
 				cargo = rua = bairro = cidade = telefone = "";
 				birthYear = cpf = 0;
 			}
 			else 
 			{
-				cargo = arr[2];
-				rua = arr[3];
-				bairro = arr[4];
-				cidade = arr[5];
-				telefone = arr[6];
-				birthYear = new Integer(arr[7]);
-				cpf = new Integer(arr[8]);
+				cargo = arr[3];
+				rua = arr[4];
+				bairro = arr[5];
+				cidade = arr[6];
+				telefone = arr[7];
+				birthYear = new Integer(arr[8]);
+				cpf = new Integer(arr[9]);
 			}
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "Error building user.");
@@ -57,7 +58,8 @@ public class User implements Comparable<User>
 	@Override
 	public String toString() 
 	{
-		return nome + "#" + senha + "#" + cargo + "#" + rua + "#" + bairro + "#" + cidade + "#" + telefone +
+		return (new Integer(personalId)).toString() + "#" + nome + "#" + senha + "#" + cargo + "#" + 
+				rua + "#" + bairro + "#" + cidade + "#" + telefone +
 				"#" + (new Integer(birthYear)).toString() + "#" + (new Integer(cpf)).toString();
 	}
 	
@@ -65,5 +67,33 @@ public class User implements Comparable<User>
 	public int compareTo(User o) {
 		if (personalId < o.personalId) return -1;
 		else return 1;
+	}
+	
+	public String info() 
+	{
+		String[] arr = toString().split("#");
+
+		return "ID: " + getStringWithSpaces(arr[0], 0) + 
+				", nome: " + getStringWithSpaces(arr[1], 1) + 
+				", senha: " + getStringWithSpaces(arr[2], 2) + 
+				", cargo: " + getStringWithSpaces(arr[3], 3) + 
+				", rua: " + getStringWithSpaces(arr[4], 4) + 
+				", bairro: " + getStringWithSpaces(arr[5], 5) + 
+				", cidade: " + getStringWithSpaces(arr[6], 6) + 
+				", telefone: " + getStringWithSpaces(arr[7], 7) + 
+				", ano de nascimento: " + getStringWithSpaces(arr[8], 8) + 
+				", CPF: " + getStringWithSpaces(arr[9], 9);
+	}
+	
+	private String getStringWithSpaces(String s, int pos) 
+	{
+		int spaces = Main.stringSizes[pos] - s.length();
+		
+		for (int i = 0; i < spaces; i++) 
+		{
+			s += " ";
+		}
+		
+		return s;
 	}
 }
