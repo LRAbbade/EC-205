@@ -27,6 +27,32 @@ public class User implements Comparable<User>
 	}
 	
 	/**
+	 * Constructor for re-building the user from 'Info' String method
+	 * @param info
+	 */
+	public User(String[] info) 
+	{
+		String[] arr = new String[info.length];
+		
+		for (int i = 0; i < info.length; i++) 
+		{
+			String[] aux = info[i].split(": ");
+			arr[i] = aux[1].trim();
+		}
+		
+		personalId = new Integer(arr[0]);
+		nome = arr[1];
+		senha = arr[2];
+		cargo = arr[3];
+		rua = arr[4];
+		bairro = arr[5];
+		cidade = arr[6];
+		telefone = arr[7];
+		birthYear = new Integer(arr[8]);
+		cpf = new Integer(arr[9]);
+	}
+	
+	/**
 	 * Constructor for building User from file line.
 	 * Parameters in line should be separated by '#'
 	 * @param line
