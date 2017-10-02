@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 public class Main 
 {
-	private static HashMap <String, User> users;
+	private static HashMap <Integer, User> users;
 	private static LoginScreen loginScreen;
 	private static AdminScreen admScreen;
 	private static UserScreen userScreen;
@@ -20,13 +20,16 @@ public class Main
 	public static void main(String[] args) 
 	{
 		stringSizes = new int[10];
+		int lastId = -1;
 		
 		try {
-			loadUsers();
+			lastId = loadUsers();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Something wrong loading users. " + e.getMessage());
 			users = new HashMap<>();
 		}
+		
+		User.setId(lastId);
 		
 		loginScreen = new LoginScreen();
 	}
@@ -40,8 +43,9 @@ public class Main
 		}
 	}
 	
-	private static void loadUsers() throws IOException
+	private static int loadUsers() throws IOException
 	{
+		int r = -1;
 		users = new HashMap<>();
 		BufferedReader br;
 		
@@ -49,17 +53,19 @@ public class Main
 			br = new BufferedReader(new FileReader("users.txt"));
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found. Creating new.");
-			return;
+			return r;
 		}
 		
 		while (br.ready()) 
 		{
 			User u = new User(br.readLine());
 			setStringSizes(u);	
-			users.put(u.nome, u);
+			users.put(u.personalId, u);
+			if (u.personalId > r) r = u.personalId;
 		}
 		
 		br.close();
+		return r;
 	}
 	
 	private static void setStringSizes(User u) 
@@ -86,9 +92,9 @@ public class Main
 	{
 		BufferedWriter br = new BufferedWriter(new FileWriter("users.txt"));
 		
-		for (String s : users.keySet()) 
+		for (Integer i : users.keySet()) 
 		{
-			br.write(users.get(s).toString());
+			br.write(users.get(i).toString());
 			br.newLine();
 		}
 		
@@ -121,9 +127,9 @@ public class Main
 		User[] r = new User[users.size()];
 		int pos = 0;
 		
-		for (String s : users.keySet()) 
+		for (Integer i : users.keySet()) 
 		{
-			r[pos++] = users.get(s);
+			r[pos++] = users.get(i);
 		}
 		
 		Arrays.sort(r);
@@ -131,23 +137,39 @@ public class Main
 		return r;
 	}
 	
-	public static void deleteUser(String username) throws UnknownUserException
+	public static void deleteUser(int id) throws UnknownUserException
 	{
-		if (users.remove(username) == null) throw new UnknownUserException();
+		if (users.remove(id) == null) throw new UnknownUserException();
 	}
 	
-	public static boolean findUser(String username, String password) 
+	public static User getUser(int id) throws UnknownUserException
 	{
-		if (users.containsKey(username))
-			if (users.get(username).senha.equals(password)) return true;
+		if (!users.containsKey(id)) throw new UnknownUserException();
+		return users.get(id);
+	}
+	
+	public static boolean findUser(int id, String password) 
+	{
+		if (users.containsKey(id))
+			if (users.get(id).senha.equals(password)) return true;
 		
 		return false;
 	}
 	
-	public static void registerUser(String username, User user) throws UserAlreadyRegisteredException
+	public static boolean findUser(String username, String password) 
 	{
-		if (users.containsKey(username)) throw new UserAlreadyRegisteredException();
-		users.put(username, user);
+		for (Integer i : users.keySet()) 
+		{
+			if (users.get(i).nome.equals(username) && users.get(i).senha.equals(password)) return true;
+		}
+		
+		return false;
+	}
+	
+	public static void registerUser(int id, User user) throws UserAlreadyRegisteredException
+	{
+		if (users.containsKey(id)) throw new UserAlreadyRegisteredException();
+		users.put(id, user);
 	}
 	
 	public static void changeUser() 

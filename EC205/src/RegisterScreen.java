@@ -170,6 +170,17 @@ public class RegisterScreen extends JFrame
 		lblTelefone.setBounds(26, 329, 61, 16);
 		panel.add(lblTelefone);
 		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				Main.openAdminScreen();
+				setVisible(false);
+			}
+		});
+		btnCancel.setBounds(323, 4, 117, 29);
+		panel.add(btnCancel);
+		
 		addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -210,11 +221,16 @@ public class RegisterScreen extends JFrame
 		if (Main.findUser(username, password)) return false;
 		
 		try {
-			Main.registerUser(username, new User(username, password, textFieldCargo.getText(),
-												 textFieldRua.getText(), textFieldBairro.getText(),
-												 textFieldCidade.getText(), textFieldTelefone.getText(),
+			User u =	 new User(username, password, textFieldCargo.getText(),
+												 textFieldRua.getText(), 
+												 textFieldBairro.getText(),
+												 textFieldCidade.getText(), 
+												 textFieldTelefone.getText(),
 												 new Integer(textFieldAnoNascimento.getText()),
-												 new Integer(textFieldCpf.getText())));
+												 new Integer(textFieldCpf.getText()));
+			
+			Main.registerUser(u.personalId, u); 
+			
 		} catch (UserAlreadyRegisteredException ex) {
 			JOptionPane.showMessageDialog(null, ex.getMessage());
 			return false;

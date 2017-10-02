@@ -6,6 +6,11 @@ public class User implements Comparable<User>
 	public String nome, senha, cargo, rua, bairro, cidade, telefone;
 	public int personalId, birthYear, cpf;
 	
+	public static void setId(int lastId) 
+	{
+		id = ++lastId;
+	}
+	
 	public User(String nome, String senha, String cargo, String rua, String bairro, 
 				String cidade, String telefone, int birthYear, int cpf) 
 	{

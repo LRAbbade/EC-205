@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.ListSelectionModel;
 public class AdminScreen extends JFrame 
 {
 	private JPanel contentPane;
+	private JList listUsers;
 
 	/**
 	 * Create the frame.
@@ -59,14 +61,20 @@ public class AdminScreen extends JFrame
 		
 		JButton btnDeleteUser = new JButton("Delete User");
 		btnDeleteUser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// TODO
+			public void actionPerformed(ActionEvent e) 
+			{
+				try {
+					Main.deleteUser(getSelectedUserId());
+					JOptionPane.showMessageDialog(null, "User deleted");
+				} catch (UnknownUserException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
 			}
 		});
 		btnDeleteUser.setBounds(351, 48, 166, 46);
 		panel.add(btnDeleteUser);
 		
-		JList listUsers = new JList(getUsers());
+		listUsers = new JList(getUsers());
 		listUsers.setFont(new Font("Courier", Font.PLAIN, 12));
 		listUsers.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		listUsers.setLayoutOrientation(JList.VERTICAL);
@@ -96,9 +104,10 @@ public class AdminScreen extends JFrame
 		setVisible(true);
 	}
 	
-	private User getSelectedUser() 
+	private int getSelectedUserId() 
 	{
-		// TODO
+		String line[] = listUsers.getSelectedValue().toString().split(",");
+		return new Integer(line[0].substring(4));
 	}
 	
 	private String[] getUsers() 
