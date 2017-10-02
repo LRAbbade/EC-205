@@ -24,6 +24,8 @@ public class RegisterScreen extends JFrame
 	private JTextField textFieldBairro;
 	private JTextField textFieldCidade;
 	private JTextField textFieldTelefone;
+	private boolean isEditting;
+	private User beingEditted;
 
 	/**
 	 * Create the frame.
@@ -68,9 +70,23 @@ public class RegisterScreen extends JFrame
 		lblPassword.setBounds(26, 87, 61, 16);
 		panel.add(lblPassword);
 		
-		JButton btnRegister = new JButton("Register");
+		JButton btnRegister = new JButton("Save");
 		btnRegister.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) 
+			{
+				if (isEditting) 
+				{
+					try {
+						returnEdittedUser();
+						JOptionPane.showMessageDialog(null, "User editted");
+						setVisible(false);
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage());
+					}
+					
+					return;
+				}
+				
 				try {
 					if (!signUp()) JOptionPane.showMessageDialog(null, "User already registered");
 					else 
@@ -192,7 +208,9 @@ public class RegisterScreen extends JFrame
 	}
 	
 	@Override
-	public void setVisible(boolean b) {
+	public void setVisible(boolean b) 
+	{
+		isEditting = false;
 		textFieldPassword.setText("");
 		textFieldUsername.setText("");
 		textFieldCargo.setText("");
@@ -203,6 +221,36 @@ public class RegisterScreen extends JFrame
 		textFieldAnoNascimento.setText("");
 		textFieldCpf.setText("");
 		super.setVisible(b);
+	}
+	
+	public void editUser(User u) 
+	{
+		textFieldAnoNascimento.setText((new Integer(u.birthYear)).toString());
+		textFieldBairro.setText(u.bairro);
+		textFieldCargo.setText(u.cargo);
+		textFieldCidade.setText(u.cidade);
+		textFieldCpf.setText((new Integer(u.cpf)).toString());
+		textFieldPassword.setText(u.senha);
+		textFieldRua.setText(u.rua);
+		textFieldTelefone.setText(u.telefone);
+		textFieldUsername.setText(u.nome);
+		isEditting = true;
+		beingEditted = u;
+	}
+	
+	private void returnEdittedUser() 
+	{
+		 beingEditted.nome = textFieldUsername.getText();
+		 beingEditted.senha = textFieldPassword.getText();
+		 beingEditted.cargo = textFieldCargo.getText();
+		 beingEditted.rua = textFieldRua.getText();
+		 beingEditted.bairro = textFieldBairro.getText();
+		 beingEditted.cidade = textFieldCidade.getText(); 
+		 beingEditted.telefone = textFieldTelefone.getText();
+		 beingEditted.birthYear = new Integer(textFieldAnoNascimento.getText());
+		 beingEditted.cpf = new Integer(textFieldCpf.getText());
+		 
+		 Main.returnEdittedUser(beingEditted);
 	}
 
 	private boolean signUp() throws InvalidPasswordException, InvalidUsernameException

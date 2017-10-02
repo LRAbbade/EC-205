@@ -156,6 +156,19 @@ public class Main
 		return false;
 	}
 	
+	public static void editUser(User u) 
+	{
+		openRegisterScreen();
+		registerScreen.editUser(u);
+		users.put(u.personalId, u);
+	}
+	
+	public static void returnEdittedUser(User u) 
+	{
+		openAdminScreen();
+		admScreen.returnEdittedUser(u);
+	}
+	
 	public static boolean findUser(String username, String password) 
 	{
 		for (Integer i : users.keySet()) 
@@ -170,6 +183,7 @@ public class Main
 	{
 		if (users.containsKey(id)) throw new UserAlreadyRegisteredException();
 		users.put(id, user);
+		admScreen.addUser(user.info());
 	}
 	
 	public static void changeUser() 
