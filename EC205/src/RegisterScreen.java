@@ -225,30 +225,30 @@ public class RegisterScreen extends JFrame
 	
 	public void editUser(User u) 
 	{
-		textFieldAnoNascimento.setText((new Integer(u.birthYear)).toString());
-		textFieldBairro.setText(u.bairro);
-		textFieldCargo.setText(u.cargo);
-		textFieldCidade.setText(u.cidade);
-		textFieldCpf.setText((new Integer(u.cpf)).toString());
-		textFieldPassword.setText(u.senha);
-		textFieldRua.setText(u.rua);
-		textFieldTelefone.setText(u.telefone);
-		textFieldUsername.setText(u.nome);
+		textFieldAnoNascimento.setText((new Integer(u.getBirthYear())).toString());
+		textFieldBairro.setText(u.getBairro());
+		textFieldCargo.setText(u.getCargo());
+		textFieldCidade.setText(u.getCidade());
+		textFieldCpf.setText((new Integer(u.getCpf())).toString());
+		textFieldPassword.setText(u.getSenha());
+		textFieldRua.setText(u.getRua());
+		textFieldTelefone.setText(u.getTelefone());
+		textFieldUsername.setText(u.getNome());
 		isEditting = true;
 		beingEditted = u;
 	}
 	
 	private void returnEdittedUser() 
 	{
-		 beingEditted.nome = textFieldUsername.getText();
-		 beingEditted.senha = textFieldPassword.getText();
-		 beingEditted.cargo = textFieldCargo.getText();
-		 beingEditted.rua = textFieldRua.getText();
-		 beingEditted.bairro = textFieldBairro.getText();
-		 beingEditted.cidade = textFieldCidade.getText(); 
-		 beingEditted.telefone = textFieldTelefone.getText();
-		 beingEditted.birthYear = new Integer(textFieldAnoNascimento.getText());
-		 beingEditted.cpf = new Integer(textFieldCpf.getText());
+		 beingEditted.setNome(textFieldUsername.getText());
+		 beingEditted.setSenha(textFieldPassword.getText());
+		 beingEditted.setCargo(textFieldCargo.getText());
+		 beingEditted.setRua(textFieldRua.getText());
+		 beingEditted.setBairro(textFieldBairro.getText());
+		 beingEditted.setCidade(textFieldCidade.getText()); 
+		 beingEditted.setTelefone(textFieldTelefone.getText());
+		 beingEditted.setBirthYear(new Integer(textFieldAnoNascimento.getText()));
+		 beingEditted.setCpf(new Integer(textFieldCpf.getText()));
 		 
 		 Main.returnEdittedUser(beingEditted);
 	}
@@ -277,7 +277,7 @@ public class RegisterScreen extends JFrame
 												 new Integer(textFieldAnoNascimento.getText()),
 												 new Integer(textFieldCpf.getText()));
 			
-			Main.registerUser(u.personalId, u); 
+			Main.registerUser(u.getPersonalId(), u); 
 			
 		} catch (UserAlreadyRegisteredException ex) {
 			JOptionPane.showMessageDialog(null, ex.getMessage());

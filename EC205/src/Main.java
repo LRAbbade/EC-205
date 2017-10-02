@@ -60,8 +60,8 @@ public class Main
 		{
 			User u = new User(br.readLine());
 			setStringSizes(u);	
-			users.put(u.personalId, u);
-			if (u.personalId > r) r = u.personalId;
+			users.put(u.getPersonalId(), u);
+			if (u.getPersonalId() > r) r = u.getPersonalId();
 		}
 		
 		br.close();
@@ -70,19 +70,19 @@ public class Main
 	
 	private static void setStringSizes(User u) 
 	{
-		int idSize = (new Integer(u.personalId)).toString().length();
+		int idSize = (new Integer(u.getPersonalId())).toString().length();
 		
 		if (idSize > stringSizes[0]) stringSizes[0] = idSize;
-		if (u.nome.length() > stringSizes[1]) stringSizes[1] = u.nome.length();
-		if (u.senha.length() > stringSizes[2]) stringSizes[2] = u.senha.length();
-		if (u.cargo.length() > stringSizes[3]) stringSizes[3] = u.cargo.length();
-		if (u.rua.length() > stringSizes[4]) stringSizes[4] = u.rua.length();
-		if (u.bairro.length() > stringSizes[5]) stringSizes[5] = u.bairro.length();
-		if (u.cidade.length() > stringSizes[6]) stringSizes[6] = u.cidade.length();
-		if (u.telefone.length() > stringSizes[7]) stringSizes[7] = u.telefone.length();
+		if (u.getNome().length() > stringSizes[1]) stringSizes[1] = u.getNome().length();
+		if (u.getSenha().length() > stringSizes[2]) stringSizes[2] = u.getSenha().length();
+		if (u.getCargo().length() > stringSizes[3]) stringSizes[3] = u.getCargo().length();
+		if (u.getRua().length() > stringSizes[4]) stringSizes[4] = u.getRua().length();
+		if (u.getBairro().length() > stringSizes[5]) stringSizes[5] = u.getBairro().length();
+		if (u.getCidade().length() > stringSizes[6]) stringSizes[6] = u.getCidade().length();
+		if (u.getTelefone().length() > stringSizes[7]) stringSizes[7] = u.getTelefone().length();
 		
-		int birthSize = (new Integer(u.birthYear)).toString().length();
-		int cpfSize = (new Integer(u.cpf)).toString().length();
+		int birthSize = (new Integer(u.getBirthYear())).toString().length();
+		int cpfSize = (new Integer(u.getCpf())).toString().length();
 		
 		if (birthSize > stringSizes[8]) stringSizes[8] = birthSize;
 		if (cpfSize > stringSizes[9]) stringSizes[9] = cpfSize;
@@ -151,7 +151,7 @@ public class Main
 	public static boolean findUser(int id, String password) 
 	{
 		if (users.containsKey(id))
-			if (users.get(id).senha.equals(password)) return true;
+			if (users.get(id).getSenha().equals(password)) return true;
 		
 		return false;
 	}
@@ -160,7 +160,7 @@ public class Main
 	{
 		openRegisterScreen();
 		registerScreen.editUser(u);
-		users.put(u.personalId, u);
+		users.put(u.getPersonalId(), u);
 	}
 	
 	public static void returnEdittedUser(User u) 
@@ -173,7 +173,7 @@ public class Main
 	{
 		for (Integer i : users.keySet()) 
 		{
-			if (users.get(i).nome.equals(username) && users.get(i).senha.equals(password)) return true;
+			if (users.get(i).getNome().equals(username) && users.get(i).getSenha().equals(password)) return true;
 		}
 		
 		return false;

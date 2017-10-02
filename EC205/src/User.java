@@ -3,8 +3,8 @@ import javax.swing.JOptionPane;
 public class User implements Comparable<User>
 {
 	static int id;
-	public String nome, senha, cargo, rua, bairro, cidade, telefone;
-	public int personalId, birthYear, cpf;
+	private String nome, senha, cargo, rua, bairro, cidade, telefone;
+	private int personalId, birthYear, cpf;
 	
 	public static void setId(int lastId) 
 	{
@@ -85,6 +85,29 @@ public class User implements Comparable<User>
 			JOptionPane.showMessageDialog(null, "Error building user.");
 		}
 	}
+
+	// Seguem 20 linhas de getters and setters INUTEIS abaixo:
+	
+	public String getNome() { return nome; }
+	public String getSenha() { return senha; }
+	public String getCargo() { return cargo; }
+	public String getRua() { return rua; }
+	public String getBairro() { return bairro; }
+	public String getCidade() { return cidade; }
+	public String getTelefone() { return telefone; }
+	public int getPersonalId() { return personalId; }
+	public int getBirthYear() { return birthYear; }
+	public int getCpf() { return cpf; }
+	
+	public void setNome(String nome) { this.nome = nome; }
+	public void setSenha(String senha) { this.senha = senha; }
+	public void setCargo(String cargo) { this.cargo = cargo; }
+	public void setRua(String rua) { this.rua = rua; }
+	public void setBairro(String bairro) { this.bairro = bairro; }
+	public void setCidade(String cidade) { this.cidade = cidade; }
+	public void setTelefone(String telefone) { this.telefone = telefone; }
+	public void setBirthYear(int birthYear) { this.birthYear = birthYear; }
+	public void setCpf(int cpf) { this.cpf = cpf; }
 	
 	@Override
 	public String toString() 
