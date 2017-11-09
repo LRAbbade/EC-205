@@ -175,7 +175,7 @@ public class DAO
 	public static void editMedicine(Medicine m) 
 	{
 		Main.openRegisterMedicineScreen();
-		Main.registerMedicineScreen.editMedicine(m);
+		Main.registerMedicineScreen.Edit(m);
 		medicines.remove(m.getPersonalId());
 	}
 	
@@ -196,9 +196,9 @@ public class DAO
 		Main.openAdminScreen();
 	}
 	
-	public static void registerMedicine(Medicine m) throws UserAlreadyRegisteredException
+	public static void registerMedicine(Medicine m) throws MedicineAlreadyRegisteredException
 	{
-		if (medicines.containsKey(m.getPersonalId())) throw new UserAlreadyRegisteredException();
+		if (medicines.containsKey(m.getPersonalId())) throw new MedicineAlreadyRegisteredException();
 		medicines.put(m.getPersonalId(), m);
 		Main.openUserScreen();
 	}

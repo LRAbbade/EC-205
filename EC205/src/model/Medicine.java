@@ -1,5 +1,7 @@
 package model;
 
+import javax.swing.JOptionPane;
+
 public class Medicine 
 {
 	static int id;
@@ -64,6 +66,31 @@ public class Medicine
 		fabricante = principioAtivo = "";
 		tipoMedicamento = null;
 		preco = 0;
+	}
+	
+	public Medicine(String[] arr) throws ArrayIndexOutOfBoundsException
+	{
+		this(arr, ++id);
+	}
+	
+	public Medicine(String[] arr, int idd) throws ArrayIndexOutOfBoundsException
+	{
+		personalId = idd;
+		nome = arr[0];
+		fabricante = arr[1];
+		principioAtivo = arr[2];
+		
+		if (arr[3].equals("COMUM")) tipoMedicamento = TipoMedicamento.COMUM;
+		else if (arr[3].equals("CONTROLADO")) tipoMedicamento = TipoMedicamento.CONTROLADO;
+		else if (arr[3].equals("GENERICO")) tipoMedicamento = TipoMedicamento.GENERICO;
+		else tipoMedicamento = TipoMedicamento.MANIPULADO;
+		
+		try {
+			preco = new Float(arr[4]);
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(null, "Preco incorreto", "Erro", JOptionPane.ERROR_MESSAGE);
+			preco = 0;
+		}
 	}
 	
 	public Object[] getInfoAsObject() 
