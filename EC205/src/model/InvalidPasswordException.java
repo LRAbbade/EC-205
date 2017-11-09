@@ -6,6 +6,6 @@ public class InvalidPasswordException extends Exception
 	@Override
 	public String getMessage() 
 	{
-		return "Invalid Password. Your password must contain only letters and numbers, and at least 5 characters.";
+		return "Senha invalida. Sua senha deve conter apenas letras e numeros e pelo menos 5 caracteres.";
 	}
 }

@@ -6,6 +6,6 @@ public class InvalidUsernameException extends Exception
 	@Override
 	public String getMessage() 
 	{
-		return "Invalid username. Your username must not contain special characters.";
+		return "Nome invalido. Seu nome nao deve conter caracteres especiais.";
 	}
 }
