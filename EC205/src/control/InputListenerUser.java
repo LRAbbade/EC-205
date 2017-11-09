@@ -3,6 +3,11 @@ package control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
+import model.DAO;
+import model.Medicine;
+import model.UnknownMedicineException;
 import view.UserScreen;
 
 public class InputListenerUser implements ActionListener
@@ -16,12 +21,47 @@ public class InputListenerUser implements ActionListener
 	
 	private void delete() 
 	{
-		// TODO
+		Medicine m = getSelectedMedicine();
+		if (m == null) return;
+		
+		try {
+			DAO.Delete(m);
+		} catch (UnknownMedicineException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+		userScreen.setTable();
+		userScreen.setEditAndDeleteButton();
 	}
 	
 	private void edit() 
 	{
-		// TODO
+		Medicine m = getSelectedMedicine();
+		if (m == null) return;
+		
+		DAO.editMedicine(m);
+		userScreen.setVisible(false);
+	}
+	
+	private Medicine getSelectedMedicine()
+	{
+		Object[] info;
+		
+		try {
+			info = userScreen.getSelectedRow();
+		} catch (ArrayIndexOutOfBoundsException e) {
+			JOptionPane.showMessageDialog(null, "Nenhum medicamento selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
+			return null;
+		}
+		
+		String[] arr = new String[info.length - 1];
+		int id = new Integer((String)info[0]);
+		
+		for (int i = 1; i < info.length; i++) 
+		{
+			arr[i - 1] = (String)info[i];
+		}
+		
+		return new Medicine(arr, id);
 	}
 	
 	private void trocarUsuario() 
@@ -32,7 +72,8 @@ public class InputListenerUser implements ActionListener
 	
 	private void adicionar() 
 	{
-		// TODO
+		userScreen.setVisible(false);
+		Main.openRegisterMedicineScreen();
 	}
 
 	@Override

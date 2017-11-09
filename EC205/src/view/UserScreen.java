@@ -90,6 +90,19 @@ public class UserScreen extends JFrame
 		setVisible(true);
 	}
 	
+	public Object[] getSelectedRow() throws ArrayIndexOutOfBoundsException
+	{
+		Object[] r = new Object[table.getColumnCount()];
+		int row = table.getSelectedRow();
+		
+		for (int i = 0; i < r.length; i++) 
+		{
+			r[i] = table.getValueAt(row, i);
+		}
+		
+		return r;
+	}
+	
 	public void setEditAndDeleteButton() 
 	{
 		boolean b = table.getRowCount() > 0;

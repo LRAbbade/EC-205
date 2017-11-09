@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import control.InputListenerLogin;
-import control.Main;
+import model.DAO;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -71,7 +71,7 @@ public class LoginScreen extends JFrame
 		addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		        Main.Close();
+		        DAO.Close();
 		    }
 		});
 		

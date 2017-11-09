@@ -4,7 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import control.InputListenerRegister;
-import control.Main;
+import model.DAO;
 import model.User;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -172,7 +172,7 @@ public class RegisterScreen extends JFrame
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) 
 		    {
-		        Main.Close();
+		        DAO.Close();
 		    }
 		});
 		
