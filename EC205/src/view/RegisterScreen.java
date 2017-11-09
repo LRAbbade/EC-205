@@ -3,27 +3,20 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
+import control.InputListenerRegister;
 import control.Main;
-import control.Validator;
-import model.DAO;
-import model.InvalidPasswordException;
-import model.InvalidUsernameException;
 import model.User;
-import model.UserAlreadyRegisteredException;
-
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class RegisterScreen extends JFrame 
 {
+	public boolean isEditting;
+	public User beingEditted;
 	private JPanel contentPane;
 	private JTextField textFieldUsername;
 	private JTextField textFieldPassword;
@@ -34,14 +27,15 @@ public class RegisterScreen extends JFrame
 	private JTextField textFieldBairro;
 	private JTextField textFieldCidade;
 	private JTextField textFieldTelefone;
-	private boolean isEditting;
-	private User beingEditted;
+	private InputListenerRegister inputListener;
 
 	/**
 	 * Create the frame.
 	 */
 	public RegisterScreen() 
 	{
+		inputListener = new InputListenerRegister(this);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 456, 444);
 		contentPane = new JPanel();
@@ -53,9 +47,9 @@ public class RegisterScreen extends JFrame
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		JLabel lblRegisterNewUser = new JLabel("Register new user");
+		JLabel lblRegisterNewUser = new JLabel("Registrar novo usuario");
 		lblRegisterNewUser.setFont(new Font("Myriad Pro", Font.PLAIN, 15));
-		lblRegisterNewUser.setBounds(16, 6, 130, 26);
+		lblRegisterNewUser.setBounds(16, 6, 140, 26);
 		panel.add(lblRegisterNewUser);
 		
 		textFieldUsername = new JTextField();
@@ -68,49 +62,21 @@ public class RegisterScreen extends JFrame
 		textFieldPassword.setBounds(87, 82, 353, 26);
 		panel.add(textFieldPassword);
 		
-		JLabel lblNewLabel = new JLabel("Username");
+		JLabel lblNewLabel = new JLabel("Nome");
 		lblNewLabel.setFont(new Font("Myriad Pro", Font.PLAIN, 13));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblNewLabel.setBounds(26, 52, 61, 16);
 		panel.add(lblNewLabel);
 		
-		JLabel lblPassword = new JLabel("Password");
+		JLabel lblPassword = new JLabel("Senha");
 		lblPassword.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPassword.setFont(new Font("Myriad Pro", Font.PLAIN, 13));
 		lblPassword.setBounds(26, 87, 61, 16);
 		panel.add(lblPassword);
 		
-		JButton btnRegister = new JButton("Save");
-		btnRegister.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				if (isEditting) 
-				{
-					try {
-						returnEditedUser();
-						JOptionPane.showMessageDialog(null, "User editted");
-						setVisible(false);
-					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage());
-					}
-					
-					return;
-				}
-				
-				try {
-					if (!signUp()) JOptionPane.showMessageDialog(null, "User already registered");
-					else 
-					{
-						JOptionPane.showMessageDialog(null, "User registered.");
-						setVisible(false);
-					}
-				} catch (InvalidPasswordException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage());
-				} catch (InvalidUsernameException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage());
-				}
-			}
-		});
+		JButton btnRegister = new JButton("Salvar");
+		btnRegister.addActionListener(inputListener);
+		btnRegister.setActionCommand("salvar");
 		btnRegister.setBounds(135, 362, 167, 39);
 		panel.add(btnRegister);
 		
@@ -196,20 +162,9 @@ public class RegisterScreen extends JFrame
 		lblTelefone.setBounds(26, 329, 61, 16);
 		panel.add(lblTelefone);
 		
-		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				int op = JOptionPane.showConfirmDialog(null, "Cancelar registro?", "Cancelar", 
-														JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-				if (op == JOptionPane.YES_OPTION) 
-				{
-					if (isEditting) DAO.returnEditedUser(beingEditted);
-					Main.openAdminScreen();
-					setVisible(false);
-				}
-			}
-		});
+		JButton btnCancel = new JButton("Cancelar");
+		btnCancel.addActionListener(inputListener);
+		btnCancel.setActionCommand("cancelar");
 		btnCancel.setBounds(323, 4, 117, 29);
 		panel.add(btnCancel);
 		
@@ -255,7 +210,7 @@ public class RegisterScreen extends JFrame
 		beingEditted = u;
 	}
 	
-	private void returnEditedUser() 
+	public void doEditUser() 
 	{
 		 beingEditted.setNome(textFieldUsername.getText());
 		 beingEditted.setSenha(textFieldPassword.getText());
@@ -266,47 +221,23 @@ public class RegisterScreen extends JFrame
 		 beingEditted.setTelefone(textFieldTelefone.getText());
 		 beingEditted.setBirthYear(new Integer(textFieldAnoNascimento.getText()));
 		 beingEditted.setCpf(new Integer(textFieldCpf.getText()));
-		 
-		 DAO.returnEditedUser(beingEditted);
-		 Main.openAdminScreen();
 	}
-
-	private boolean signUp() throws InvalidPasswordException, InvalidUsernameException
+	
+	public String[] getTextFields() 
 	{
-		String username = textFieldUsername.getText();
-		String password = textFieldPassword.getText();
+		String[] r = new String[9];
 		
-		if (username.equals("admin")) 
-		{ 
-			JOptionPane.showMessageDialog(null, "Cannot register as admin"); 
-			return false;
-		}
+		r[0] = textFieldUsername.getText();
+		r[1] = textFieldPassword.getText();
+		r[2] = textFieldCargo.getText();
+		r[3] = textFieldRua.getText();
+		r[4] = textFieldBairro.getText();
+		r[5] = textFieldCidade.getText();
+		r[6] = textFieldTelefone.getText();
+		r[7] = textFieldAnoNascimento.getText();
+		r[8] = textFieldCpf.getText();
 		
-		if (!Validator.isValidUsername(username)) throw new InvalidUsernameException();
-		if (!Validator.isValidPassword(password)) throw new InvalidPasswordException();
-		if (DAO.findUser(username, password)) return false;
-		
-		try {
-			User u =	 new User(username, password, textFieldCargo.getText(),
-												 textFieldRua.getText(), 
-												 textFieldBairro.getText(),
-												 textFieldCidade.getText(), 
-												 textFieldTelefone.getText(),
-												 new Integer(textFieldAnoNascimento.getText()),
-												 new Integer(textFieldCpf.getText()));
-			
-			DAO.registerUser(u); 
-			
-		} catch (UserAlreadyRegisteredException ex) {
-			JOptionPane.showMessageDialog(null, ex.getMessage());
-			return false;
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "Erro ao criar funcionário."); // melhorar depois
-			System.out.println(ex.getMessage());
-			return false;
-		}
-		
-		return true;
+		return r;
 	}
 	
 }

@@ -23,11 +23,14 @@ public class InputListenerAdmin implements ActionListener
 		try {
 			DAO.Delete(admScreen.getSelectedUser());
 			admScreen.setTable();
-			JOptionPane.showMessageDialog(null, "User deleted");
+			admScreen.setDeleteAndEditButtonEnable();
+			JOptionPane.showMessageDialog(null, "Usuario deletado");
 		} catch (UnknownUserException e1) {
 			JOptionPane.showMessageDialog(null, e1.getMessage());
 		} catch (NullPointerException e1) {
-			JOptionPane.showMessageDialog(null, "No user selected");
+			JOptionPane.showMessageDialog(null, "Nenhum usuario selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
+		} catch (ArrayIndexOutOfBoundsException e1) {
+			JOptionPane.showMessageDialog(null, "Nenhum usuario selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

@@ -44,27 +44,27 @@ public class AdminScreen extends JFrame
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Admin Screen");
+		JLabel lblNewLabel = new JLabel("Administrador");
 		lblNewLabel.setFont(new Font("Myriad Pro", Font.PLAIN, 15));
-		lblNewLabel.setBounds(22, 20, 101, 16);
+		lblNewLabel.setBounds(22, 20, 140, 16);
 		panel.add(lblNewLabel);
 		
-		JButton btnChangeUser = new JButton("Change User");
+		JButton btnChangeUser = new JButton("Trocar usuario");
 		btnChangeUser.addActionListener(inputListener);
 		btnChangeUser.setActionCommand("change user");
-		btnChangeUser.setBounds(867, 7, 117, 29);
+		btnChangeUser.setBounds(850, 7, 130, 29);
 		panel.add(btnChangeUser);
 		
-		JButton btnRegister = new JButton("Register New User");
+		JButton btnRegister = new JButton("Registrar novo usuario");
 		btnRegister.addActionListener(inputListener);
 		btnRegister.setActionCommand("register");
-		btnRegister.setBounds(6, 48, 166, 46);
+		btnRegister.setBounds(6, 48, 170, 46);
 		panel.add(btnRegister);
 		
-		btnDeleteUser = new JButton("Delete User");
+		btnDeleteUser = new JButton("Deletar usuario");
 		btnDeleteUser.addActionListener(inputListener);
 		btnDeleteUser.setActionCommand("delete");
-		btnDeleteUser.setBounds(351, 48, 166, 46);
+		btnDeleteUser.setBounds(360, 48, 170, 46);
 		panel.add(btnDeleteUser);
 	
 		setTable();
@@ -72,10 +72,10 @@ public class AdminScreen extends JFrame
 		scrollPane.setBounds(6, 106, 978, 356);
 		panel.add(scrollPane);
 		
-		btnEditUser = new JButton("Edit User");
+		btnEditUser = new JButton("Editar usuario");
 		btnEditUser.addActionListener(inputListener);
 		btnEditUser.setActionCommand("edit");
-		btnEditUser.setBounds(184, 48, 155, 46);
+		btnEditUser.setBounds(189, 48, 160, 46);
 		panel.add(btnEditUser);
 		
 		addWindowListener(new java.awt.event.WindowAdapter() {
@@ -88,7 +88,7 @@ public class AdminScreen extends JFrame
 		setVisible(true);
 	}
 	
-	public User getSelectedUser() 
+	public User getSelectedUser() throws ArrayIndexOutOfBoundsException
 	{
 		Object[] info = new Object[table.getColumnCount()];
 		int row = table.getSelectedRow();
@@ -101,12 +101,12 @@ public class AdminScreen extends JFrame
 		return new User(info);
 	}
 	
-	public int getSelectedUserId() 
+	public int getSelectedUserId() throws ArrayIndexOutOfBoundsException
 	{
 		return new Integer((String)table.getValueAt(table.getSelectedRow(), 0));
 	}
 	
-	private void setDeleteAndEditButtonEnable() 
+	public void setDeleteAndEditButtonEnable() 
 	{
 		boolean b = table.getRowCount() > 0;
 		btnDeleteUser.setEnabled(b);

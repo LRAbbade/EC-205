@@ -3,19 +3,13 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
+import control.InputListenerLogin;
 import control.Main;
-import model.DAO;
-import model.UnknownUserException;
-
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class LoginScreen extends JFrame 
@@ -23,12 +17,15 @@ public class LoginScreen extends JFrame
 	private JPanel contentPane;
 	private JTextField textFieldUser;
 	private JTextField textFieldPassword;
+	private InputListenerLogin inputListener;
 
 	/**
 	 * Create the frame.
 	 */
 	public LoginScreen() 
 	{	
+		inputListener = new InputListenerLogin(this);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 535, 235);
 		contentPane = new JPanel();
@@ -46,39 +43,29 @@ public class LoginScreen extends JFrame
 		panel.add(lblNewLabel);
 		
 		textFieldUser = new JTextField();
-		textFieldUser.setBounds(113, 61, 389, 26);
+		textFieldUser.setBounds(148, 61, 354, 26);
 		panel.add(textFieldUser);
 		textFieldUser.setColumns(10);
 		
 		textFieldPassword = new JTextField();
-		textFieldPassword.setBounds(113, 99, 389, 26);
+		textFieldPassword.setBounds(148, 99, 354, 26);
 		panel.add(textFieldPassword);
 		textFieldPassword.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Username");
+		JLabel lblNewLabel_1 = new JLabel("Nome de usuario");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_1.setBounds(6, 66, 88, 16);
+		lblNewLabel_1.setBounds(6, 66, 130, 16);
 		panel.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("Password");
+		JLabel lblNewLabel_2 = new JLabel("Senha");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_2.setBounds(33, 104, 61, 16);
+		lblNewLabel_2.setBounds(33, 104, 103, 16);
 		panel.add(lblNewLabel_2);
 		
-		JButton btnSignIn = new JButton("Sign In");
-		btnSignIn.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{	
-				try {
-					signIn();
-					setVisible(false);
-				} catch (UnknownUserException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage());
-				}
-			}
-		});
-		btnSignIn.setBounds(33, 137, 170, 46);
+		JButton btnSignIn = new JButton("Entrar");
+		btnSignIn.addActionListener(inputListener);
+		btnSignIn.setActionCommand("entrar");
+		btnSignIn.setBounds(183, 137, 170, 46);
 		panel.add(btnSignIn);
 		
 		addWindowListener(new java.awt.event.WindowAdapter() {
@@ -91,14 +78,14 @@ public class LoginScreen extends JFrame
 		setVisible(true);
 	}
 	
-	private void signIn() throws UnknownUserException
+	public String[] getTextFields() 
 	{
-		String username = textFieldUser.getText();
-		String password = textFieldPassword.getText();
+		String[] r = new String[2];
 		
-		if (username.equals("admin") && password.equals("admin")) Main.openAdminScreen();
-		else if (DAO.findUser(username, password)) Main.openUserScreen();
-		else throw new UnknownUserException();
+		r[0] = textFieldUser.getText();
+		r[1] = textFieldPassword.getText();
+		
+		return r;
 	}
 	
 	@Override

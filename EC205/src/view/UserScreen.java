@@ -33,12 +33,12 @@ public class UserScreen extends JFrame
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("User Screen");
+		JLabel lblNewLabel = new JLabel("Usuario");
 		lblNewLabel.setFont(new Font("Myriad Pro", Font.PLAIN, 15));
 		lblNewLabel.setBounds(34, 25, 87, 16);
 		panel.add(lblNewLabel);
 		
-		JButton btnNewButton = new JButton("Change User");
+		JButton btnNewButton = new JButton("Trocar Usuario");
 		btnNewButton.addActionListener(new ActionListener() 
 		{
 			public void actionPerformed(ActionEvent e) 
@@ -47,7 +47,7 @@ public class UserScreen extends JFrame
 				Main.changeUser();
 			}
 		});
-		btnNewButton.setBounds(417, 0, 117, 29);
+		btnNewButton.setBounds(410, 0, 124, 29);
 		panel.add(btnNewButton);
 		
 		addWindowListener(new java.awt.event.WindowAdapter() {
