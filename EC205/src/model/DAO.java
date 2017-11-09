@@ -20,15 +20,24 @@ public class DAO
 	public static void Start() 
 	{
 		int lastId = -1;
+		int lastMedId = -1;
 		
 		try {
 			lastId = loadUsers();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Something wrong loading users. " + e.getMessage());
+			JOptionPane.showMessageDialog(null, "Ocorreu um erro ao carregar os usuarios" + e.getMessage());
+			users = new HashMap<>();
+		}
+		
+		try {
+			lastMedId = loadMedicines();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Erro ao carregar medicamentos" + e.getMessage());
 			users = new HashMap<>();
 		}
 		
 		User.setId(lastId);
+		Medicine.setClassId(lastMedId);
 	}
 	
 
@@ -36,6 +45,7 @@ public class DAO
 	{
 		try {
 			saveUsers();
+			saveMedicines();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Error saving users. " + e.getMessage());
 		}
@@ -65,6 +75,30 @@ public class DAO
 		return r;
 	}
 	
+	private static int loadMedicines() throws IOException
+	{
+		int r = -1;
+		medicines = new HashMap<>();
+		BufferedReader br;
+		
+		try {
+			br = new BufferedReader(new FileReader("medicines.txt"));
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found. Creating new.");
+			return r;
+		}
+		
+		while (br.ready()) 
+		{
+			Medicine u = new Medicine(br.readLine());
+			medicines.put(u.getPersonalId(), u);
+			if (u.getPersonalId() > r) r = u.getPersonalId();
+		}
+		
+		br.close();
+		return r;
+	}
+	
 	private static void saveUsers() throws IOException 
 	{
 		BufferedWriter br = new BufferedWriter(new FileWriter("users.txt"));
@@ -81,9 +115,30 @@ public class DAO
 		System.out.println("All users saved correctly");
 	}
 	
+	private static void saveMedicines() throws IOException 
+	{
+		BufferedWriter br = new BufferedWriter(new FileWriter("medicines.txt"));
+		
+		for (Integer i : medicines.keySet()) 
+		{
+			br.write(medicines.get(i).toString());
+			br.newLine();
+		}
+		
+		br.flush();
+		br.close();
+		
+		System.out.println("All medicines saved correctly");
+	}
+	
 	public static void Delete(User u) throws UnknownUserException
 	{
 		if (users.remove(u.getPersonalId()) == null) throw new UnknownUserException();
+	}
+	
+	public static void Delete(Medicine m) throws UnknownMedicineException
+	{
+		if (medicines.remove(m.getPersonalId()) == null) throw new UnknownMedicineException();
 	}
 	
 	public static User getUser(int id) throws UnknownUserException
@@ -117,9 +172,21 @@ public class DAO
 		users.remove(u.getPersonalId());
 	}
 	
+	public static void editMedicine(Medicine m) 
+	{
+		Main.openRegisterMedicineScreen();
+		Main.registerMedicineScreen.editMedicine(m);
+		medicines.remove(m.getPersonalId());
+	}
+	
 	public static void returnEditedUser(User u) 
 	{
 		users.put(u.getPersonalId(), u);
+	}
+	
+	public static void returnEditedMedicine(Medicine m) 
+	{
+		medicines.put(m.getPersonalId(), m);
 	}
 	
 	public static void registerUser(User u) throws UserAlreadyRegisteredException
@@ -127,6 +194,13 @@ public class DAO
 		if (users.containsKey(u.getPersonalId())) throw new UserAlreadyRegisteredException();
 		users.put(u.getPersonalId(), u);
 		Main.openAdminScreen();
+	}
+	
+	public static void registerMedicine(Medicine m) throws UserAlreadyRegisteredException
+	{
+		if (medicines.containsKey(m.getPersonalId())) throw new UserAlreadyRegisteredException();
+		medicines.put(m.getPersonalId(), m);
+		Main.openUserScreen();
 	}
 	
 	public static Object[][] List(String type) 

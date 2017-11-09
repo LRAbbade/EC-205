@@ -9,6 +9,7 @@ public class Main
 	public static AdminScreen admScreen;
 	public static UserScreen userScreen;
 	public static RegisterScreen registerScreen;
+	public static RegisterMedicineScreen registerMedicineScreen;
 	
 	public static void main(String[] args) 
 	{	
@@ -34,13 +35,14 @@ public class Main
 		else userScreen.setVisible(true);
 	}
 	
+	public static void openRegisterMedicineScreen() 
+	{
+		if (registerMedicineScreen == null) registerMedicineScreen = new RegisterMedicineScreen();
+		else registerMedicineScreen.setVisible(true);
+	}
+	
 	public static void changeUser() 
 	{
 		loginScreen.setVisible(true);
-	}
-	
-	public static void Close() 
-	{
-		DAO.Close();
 	}
 }

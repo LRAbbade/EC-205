@@ -10,14 +10,14 @@ public class Medicine
 	private TipoMedicamento tipoMedicamento;
 	private float preco;
 	
-	public int getId() { return personalId; }
+	public int getPersonalId() { return personalId; }
 	public String getNome() { return nome; }
 	public String getFabricante() { return fabricante; }
 	public String getPrincipioAtivo() { return principioAtivo; }
 	public TipoMedicamento getTipoMedicamento() { return tipoMedicamento; }
 	public float getPreco() { return preco; }
 	
-	public void setId(int id) { personalId = id; }
+	public void setPersonalId(int id) { personalId = id; }
 	public void setNome(String nome) { this.nome = nome; }
 	public void setFabricante(String fabricante) { this.fabricante = fabricante; }
 	public void setPrincipioAtivo(String principioAtivo) { this.principioAtivo = principioAtivo; }
@@ -41,9 +41,20 @@ public class Medicine
 		this.preco = preco;
 	}
 	
-	public Medicine(String nome) 
+	public Medicine(String line) 
 	{
-		this(id++, nome);
+		String[] arr = line.split("#");
+		
+		personalId = new Integer(arr[0]);
+		nome = arr[1];
+		fabricante = arr[2];
+		principioAtivo = arr[3];
+		preco = new Float(arr[5]);
+		
+		if (arr[4].equals("CONTROLADO")) tipoMedicamento = TipoMedicamento.CONTROLADO;
+		else if (arr[4].equals("COMUM")) tipoMedicamento = TipoMedicamento.COMUM;
+		else if (arr[4].equals("GENERICO")) tipoMedicamento = TipoMedicamento.GENERICO;
+		else tipoMedicamento = TipoMedicamento.MANIPULADO;
 	}
 	
 	public Medicine(int idd, String nome) 
@@ -57,8 +68,7 @@ public class Medicine
 	
 	public Object[] getInfoAsObject() 
 	{
-		// TODO
-		return null;
+		return (Object[])toString().split("#");
 	}
 	
 	public static void setClassId(int id) 
@@ -68,14 +78,20 @@ public class Medicine
 	
 	public static Object[] GetAtributes() 
 	{
-		// TODO
-		return null;
+		Object[] r = {"ID", "Nome", "Fabricante", "Principio Ativo", 
+					"Tipo", "Preco"};
+		
+		return r;
 	}
 	
 	@Override
 	public String toString() 
 	{
-		// TODO
-		return null;
+		return (Integer.toString(personalId)) + "#" +
+				nome + "#" +
+				fabricante + "#" +
+				principioAtivo + "#" +
+				tipoMedicamento.toString() + "#" +
+				(Float.toString(preco));
 	}
 }
