@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import control.InputListenerAdmin;
-import control.Main;
 import model.DAO;
 import model.Table;
 import model.User;
@@ -81,7 +80,7 @@ public class AdminScreen extends JFrame
 		addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		        Main.Close();
+		        DAO.Close();
 		    }
 		});
 		
