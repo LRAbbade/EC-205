@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import control.InputListenerUser;
 import model.DAO;
 import model.Medicine;
+import model.Pedido;
 import model.Table;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -18,10 +19,14 @@ public class UserScreen extends JFrame
 {
 	private JPanel contentPane;
 	private InputListenerUser inputListener;
-	private JButton btnEditarMedicamento;
-	private JButton btnDeletarMedicamento;
 	private Table table;
 	private JScrollPane scrollPane;
+	private JButton btnEditarMedicamento;
+	private JButton btnDeletarMedicamento;
+	private JButton btnAdicionarMedicamento;
+	private JButton btnPedidos;
+	private JLabel lblMedicamentos;
+	public boolean isInMedicineScreen;
 
 	/**
 	 * Create the frame.
@@ -46,17 +51,23 @@ public class UserScreen extends JFrame
 		lblNewLabel.setBounds(6, 6, 115, 35);
 		panel.add(lblNewLabel);
 		
-		JButton btnNewButton = new JButton("Trocar Usuario");
-		btnNewButton.addActionListener(inputListener);
-		btnNewButton.setActionCommand("trocar");
-		btnNewButton.setBounds(860, 6, 124, 29);
-		panel.add(btnNewButton);
+		btnPedidos = new JButton("Ver Pedidos");
+		btnPedidos.addActionListener(inputListener);
+		btnPedidos.setActionCommand("pedidos");
+		btnPedidos.setBounds(400, 6, 200, 40);
+		panel.add(btnPedidos);
+		
+		JButton btnChangeUser = new JButton("Trocar Usuario");
+		btnChangeUser.addActionListener(inputListener);
+		btnChangeUser.setActionCommand("trocar");
+		btnChangeUser.setBounds(860, 6, 124, 40);
+		panel.add(btnChangeUser);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(6, 124, 978, 338);
 		panel.add(scrollPane);
 		
-		JLabel lblMedicamentos = new JLabel("Medicamentos");
+		lblMedicamentos = new JLabel("Medicamentos");
 		lblMedicamentos.setVerticalAlignment(SwingConstants.BOTTOM);
 		lblMedicamentos.setFont(new Font("Myriad Pro", Font.PLAIN, 14));
 		lblMedicamentos.setBounds(6, 92, 121, 29);
@@ -74,10 +85,10 @@ public class UserScreen extends JFrame
 		btnEditarMedicamento.setBounds(606, 71, 175, 41);
 		panel.add(btnEditarMedicamento);
 		
-		JButton btnAdicionarMedicamento = new JButton("Adicionar Medicamento");
+		btnAdicionarMedicamento = new JButton("Adicionar Medicamento");
 		btnAdicionarMedicamento.addActionListener(inputListener);
 		btnAdicionarMedicamento.setActionCommand("adicionar");
-		btnAdicionarMedicamento.setBounds(377, 71, 217, 41);
+		btnAdicionarMedicamento.setBounds(400, 71, 200, 41);
 		panel.add(btnAdicionarMedicamento);
 		
 		addWindowListener(new java.awt.event.WindowAdapter() {
@@ -112,16 +123,53 @@ public class UserScreen extends JFrame
 	
 	public void setTable() 
 	{
-		table = new Table(DAO.List("medicine"), Medicine.GetAtributes());
-        int[] sizes = {30, 200, 200, 200, 200, 170};
+		int[] sizes = null;
+		
+		if (isInMedicineScreen) 
+		{
+			table = new Table(DAO.List("medicine"), Medicine.GetAtributes());
+			int[] aux = {30, 200, 200, 200, 200, 170};
+			sizes = aux;
+		}
+		else 
+		{
+			table = new Table(DAO.List("pedidos"), Pedido.GetAtributes());
+			int[] aux = {30, 400, 270, 300};
+			sizes = aux;
+		}
+		
         table.setTableColumns(sizes);
         scrollPane.setViewportView(table);
         table.setFillsViewportHeight(true);
 	}
 	
+	public void showPedidos() 
+	{
+		isInMedicineScreen = false;
+		btnDeletarMedicamento.setVisible(false);
+		btnEditarMedicamento.setVisible(false);
+		btnPedidos.setText("Ver Medicamentos");
+		btnAdicionarMedicamento.setText("Adicionar Pedido");
+		lblMedicamentos.setText("Pedidos");
+		setTable();
+	}
+	
+	public void showMedicamentos() 
+	{
+		isInMedicineScreen = true;
+		btnDeletarMedicamento.setVisible(true);
+		btnEditarMedicamento.setVisible(true);
+		btnPedidos.setText("Ver Pedidos");
+		btnAdicionarMedicamento.setText("Adicionar Medicamento");
+		lblMedicamentos.setText("Medicamentos");
+		setTable();
+	}
+	
 	@Override
 	public void setVisible(boolean b) 
 	{
+		isInMedicineScreen = true;
+		showMedicamentos();
 		setTable();
 		setEditAndDeleteButton();
 		super.setVisible(b);

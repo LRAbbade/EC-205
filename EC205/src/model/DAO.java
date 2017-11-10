@@ -16,11 +16,13 @@ public class DAO
 {
 	private static HashMap<Integer, User> users;
 	private static HashMap<Integer, Medicine> medicines;
+	private static HashMap<Integer, Pedido> pedidos;
 	
 	public static void Start() 
 	{
 		int lastId = -1;
 		int lastMedId = -1;
+		int lastPedidoId = -1;
 		
 		try {
 			lastId = loadUsers();
@@ -36,18 +38,26 @@ public class DAO
 			users = new HashMap<>();
 		}
 		
+		try {
+			lastPedidoId = loadPedidos();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Erro ao carregar pedidos" + e.getMessage());
+			pedidos = new HashMap<>();
+		}
+		
 		User.setId(lastId);
 		Medicine.setClassId(lastMedId);
+		Pedido.setClassId(lastPedidoId);
 	}
 	
-
 	public static void Close() 
 	{
 		try {
 			saveUsers();
 			saveMedicines();
+			savePedidos();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Error saving users. " + e.getMessage());
+			JOptionPane.showMessageDialog(null, "Erro ao salvar informacoes: " + e.getMessage());
 		}
 	}
 	
@@ -99,6 +109,30 @@ public class DAO
 		return r;
 	}
 	
+	private static int loadPedidos() throws IOException
+	{
+		int r = -1;
+		pedidos = new HashMap<>();
+		BufferedReader br;
+		
+		try {
+			br = new BufferedReader(new FileReader("pedidos.txt"));
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found. Creating new.");
+			return r;
+		}
+		
+		while (br.ready()) 
+		{
+			Pedido u = new Pedido(br.readLine());
+			pedidos.put(u.getPersonalId(), u);
+			if (u.getPersonalId() > r) r = u.getPersonalId();
+		}
+		
+		br.close();
+		return r;
+	}
+	
 	private static void saveUsers() throws IOException 
 	{
 		BufferedWriter br = new BufferedWriter(new FileWriter("users.txt"));
@@ -129,6 +163,22 @@ public class DAO
 		br.close();
 		
 		System.out.println("All medicines saved correctly");
+	}
+	
+	private static void savePedidos() throws IOException 
+	{
+		BufferedWriter br = new BufferedWriter(new FileWriter("pedidos.txt"));
+		
+		for (Integer i : pedidos.keySet()) 
+		{
+			br.write(pedidos.get(i).toString());
+			br.newLine();
+		}
+		
+		br.flush();
+		br.close();
+		
+		System.out.println("All requests saved correctly");
 	}
 	
 	public static void Delete(User u) throws UnknownUserException
@@ -163,6 +213,22 @@ public class DAO
 		}
 		
 		return false;
+	}
+	
+	public static Medicine findMedicine(String nome) 
+	{
+		Medicine m = null;
+		
+		for (Integer i : medicines.keySet()) 
+		{
+			if (medicines.get(i).getNome().equalsIgnoreCase(nome)) 
+			{
+				m = medicines.get(i);
+				break;
+			}
+		}
+		
+		return m;
 	}
 	
 	public static void editUser(User u) 
@@ -200,12 +266,19 @@ public class DAO
 	{
 		if (medicines.containsKey(m.getPersonalId())) throw new MedicineAlreadyRegisteredException();
 		medicines.put(m.getPersonalId(), m);
-		Main.openUserScreen();
+		Main.openUserScreen("medicamentos");
+	}
+	
+	public static void registerRequest(Pedido p) throws RequestAlreadyRegisteredException
+	{
+		if (pedidos.containsKey(p.getPersonalId())) throw new RequestAlreadyRegisteredException();
+		pedidos.put(p.getPersonalId(), p);
+		Main.openUserScreen("pedidos");
 	}
 	
 	public static Object[][] List(String type) 
 	{
-		Object[][] r;
+		Object[][] r = null;
 		
 		if (type.equalsIgnoreCase("user")) 
 		{
@@ -216,8 +289,6 @@ public class DAO
 			{
 				r[pos++] = users.get(i).getInfoAsObject();
 			}
-			
-			return r;
 		}
 		else if (type.equalsIgnoreCase("medicine")) 
 		{
@@ -228,14 +299,24 @@ public class DAO
 			{
 				r[pos++] = medicines.get(i).getInfoAsObject();
 			}
+		}
+		else if (type.equalsIgnoreCase("pedidos")) 
+		{
+			r = new Object[pedidos.keySet().size()][Pedido.GetAtributes().length];
+			int pos = 0;
 			
-			return r;
+			for (Integer i : pedidos.keySet()) 
+			{
+				r[pos++] = pedidos.get(i).getInfoAsObject();
+			}
 		}
 		else 
 		{
 			System.out.println("invalid type string");
 			return null;
 		}
+		
+		return r;
 	}
 	
 }

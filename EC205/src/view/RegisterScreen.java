@@ -220,7 +220,7 @@ public class RegisterScreen extends JFrame
 		 beingEditted.setCidade(textFieldCidade.getText()); 
 		 beingEditted.setTelefone(textFieldTelefone.getText());
 		 beingEditted.setBirthYear(new Integer(textFieldAnoNascimento.getText()));
-		 beingEditted.setCpf(new Integer(textFieldCpf.getText()));
+		 beingEditted.setCpf(textFieldCpf.getText());
 	}
 	
 	public String[] getTextFields() 

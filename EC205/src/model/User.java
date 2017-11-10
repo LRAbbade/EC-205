@@ -4,8 +4,8 @@ import javax.swing.JOptionPane;
 public class User implements Comparable<User>
 {
 	static int id;
-	private String nome, senha, cargo, rua, bairro, cidade, telefone;
-	private int personalId, birthYear, cpf;
+	private String nome, senha, cargo, rua, bairro, cidade, telefone, cpf;
+	private int personalId, birthYear;
 	
 	public static void setId(int lastId) 
 	{
@@ -13,7 +13,7 @@ public class User implements Comparable<User>
 	}
 	
 	public User(String nome, String senha, String cargo, String rua, String bairro, 
-				String cidade, String telefone, int birthYear, int cpf) 
+				String cidade, String telefone, int birthYear, String cpf) 
 	{
 		personalId = id++;
 		this.nome = nome;
@@ -49,7 +49,7 @@ public class User implements Comparable<User>
 		cidade = arr[6];
 		telefone = arr[7];
 		birthYear = new Integer(arr[8]);
-		cpf = new Integer(arr[9]);
+		cpf = arr[9];
 	}
 	
 	/**
@@ -68,8 +68,8 @@ public class User implements Comparable<User>
 			
 			if (arr.length == 3) 
 			{
-				cargo = rua = bairro = cidade = telefone = "";
-				birthYear = cpf = 0;
+				cargo = rua = bairro = cidade = telefone = cpf = "";
+				birthYear = 0;
 			}
 			else 
 			{
@@ -79,7 +79,7 @@ public class User implements Comparable<User>
 				cidade = arr[6];
 				telefone = arr[7];
 				birthYear = new Integer(arr[8]);
-				cpf = new Integer(arr[9]);
+				cpf = arr[9];
 			}
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "Error building user.");
@@ -95,7 +95,7 @@ public class User implements Comparable<User>
 	public String getTelefone() { return telefone; }
 	public int getPersonalId() { return personalId; }
 	public int getBirthYear() { return birthYear; }
-	public int getCpf() { return cpf; }
+	public String getCpf() { return cpf; }
 	
 	public void setNome(String nome) { this.nome = nome; }
 	public void setSenha(String senha) { this.senha = senha; }
@@ -105,7 +105,7 @@ public class User implements Comparable<User>
 	public void setCidade(String cidade) { this.cidade = cidade; }
 	public void setTelefone(String telefone) { this.telefone = telefone; }
 	public void setBirthYear(int birthYear) { this.birthYear = birthYear; }
-	public void setCpf(int cpf) { this.cpf = cpf; }
+	public void setCpf(String cpf) { this.cpf = cpf; }
 	
 	@Override
 	public String toString() 

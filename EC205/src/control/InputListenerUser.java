@@ -72,8 +72,22 @@ public class InputListenerUser implements ActionListener
 	
 	private void adicionar() 
 	{
-		userScreen.setVisible(false);
-		Main.openRegisterMedicineScreen();
+		if (userScreen.isInMedicineScreen) 
+		{
+			userScreen.setVisible(false);
+			Main.openRegisterMedicineScreen();
+		}
+		else 
+		{
+			userScreen.setVisible(false);
+			Main.openRequestScreen();
+		}
+	}
+	
+	private void pedidos() 
+	{
+		if (userScreen.isInMedicineScreen) userScreen.showPedidos();
+		else userScreen.showMedicamentos();
 	}
 
 	@Override
@@ -83,6 +97,7 @@ public class InputListenerUser implements ActionListener
 		if (e.getActionCommand().equals("editar")) edit();
 		if (e.getActionCommand().equals("trocar")) trocarUsuario();
 		if (e.getActionCommand().equals("adicionar")) adicionar();
+		if (e.getActionCommand().equals("pedidos")) pedidos();
 	}
 
 }

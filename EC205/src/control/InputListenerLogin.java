@@ -33,7 +33,7 @@ public class InputListenerLogin implements ActionListener
 		String[] user = loginScreen.getTextFields();
 		
 		if (user[0].equals("admin") && user[1].equals("admin")) Main.openAdminScreen();
-		else if (DAO.findUser(user[0], user[1])) Main.openUserScreen();
+		else if (DAO.findUser(user[0], user[1])) Main.openUserScreen("medicamentos");
 		else throw new UnknownUserException();
 	}
 	
