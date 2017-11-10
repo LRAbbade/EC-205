@@ -11,6 +11,7 @@ public class Main
 	public static RegisterScreen registerScreen;
 	public static RegisterMedicineScreen registerMedicineScreen;
 	public static RequestScreen requestScreen;
+	public static HelpScreen helpScreen;
 	
 	public static void main(String[] args) 
 	{	
@@ -48,6 +49,12 @@ public class Main
 	{
 		if (requestScreen == null) requestScreen = new RequestScreen();
 		else requestScreen.setVisible(true);
+	}
+	
+	public static void openHelpScreen() 
+	{
+		if (helpScreen == null) helpScreen = new HelpScreen();
+		else helpScreen.setVisible(true);
 	}
 	
 	public static void changeUser() 

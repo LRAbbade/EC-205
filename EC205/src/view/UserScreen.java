@@ -25,6 +25,7 @@ public class UserScreen extends JFrame
 	private JButton btnDeletarMedicamento;
 	private JButton btnAdicionarMedicamento;
 	private JButton btnPedidos;
+	private JButton btnHelp;
 	private JLabel lblMedicamentos;
 	public boolean isInMedicineScreen;
 
@@ -56,6 +57,12 @@ public class UserScreen extends JFrame
 		btnPedidos.setActionCommand("pedidos");
 		btnPedidos.setBounds(400, 6, 200, 40);
 		panel.add(btnPedidos);
+		
+		btnHelp = new JButton("Ajuda");
+		btnHelp.addActionListener(inputListener);
+		btnHelp.setActionCommand("help");
+		btnHelp.setBounds(660, 6, 120, 40);
+		panel.add(btnHelp);
 		
 		JButton btnChangeUser = new JButton("Trocar Usuario");
 		btnChangeUser.addActionListener(inputListener);
