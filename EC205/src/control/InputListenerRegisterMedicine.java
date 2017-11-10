@@ -22,7 +22,7 @@ public class InputListenerRegisterMedicine implements ActionListener
 	{
 		if (registerMedicineScreen.isEditing) DAO.returnEditedMedicine(registerMedicineScreen.beingEdited);
 		registerMedicineScreen.setVisible(false);
-		Main.openUserScreen();
+		Main.openUserScreen("medicamentos");
 	}
 	
 	private void salvar() 
@@ -54,7 +54,7 @@ public class InputListenerRegisterMedicine implements ActionListener
 		}
 		
 		registerMedicineScreen.setVisible(false);
-		Main.openUserScreen();
+		Main.openUserScreen("medicamentos");
 	}
 
 	@Override

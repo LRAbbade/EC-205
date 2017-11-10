@@ -10,6 +10,7 @@ public class Main
 	public static UserScreen userScreen;
 	public static RegisterScreen registerScreen;
 	public static RegisterMedicineScreen registerMedicineScreen;
+	public static RequestScreen requestScreen;
 	
 	public static void main(String[] args) 
 	{	
@@ -29,16 +30,24 @@ public class Main
 		else admScreen.setVisible(true);
 	}
 	
-	public static void openUserScreen() 
+	public static void openUserScreen(String type) 
 	{
 		if (userScreen == null) userScreen = new UserScreen();
 		else userScreen.setVisible(true);
+		
+		if (type.equals("pedidos")) userScreen.showPedidos();
 	}
 	
 	public static void openRegisterMedicineScreen() 
 	{
 		if (registerMedicineScreen == null) registerMedicineScreen = new RegisterMedicineScreen();
 		else registerMedicineScreen.setVisible(true);
+	}
+	
+	public static void openRequestScreen() 
+	{
+		if (requestScreen == null) requestScreen = new RequestScreen();
+		else requestScreen.setVisible(true);
 	}
 	
 	public static void changeUser() 

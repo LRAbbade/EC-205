@@ -74,15 +74,20 @@ public class InputListenerRegister implements ActionListener
 												 textFields[5], 
 												 textFields[6],
 												 new Integer(textFields[7]),
-												 new Integer(textFields[8]));
+												 textFields[8]);
 			
-			DAO.registerUser(u); 
+			DAO.registerUser(u);
 			
 		} catch (UserAlreadyRegisteredException ex) {
-			JOptionPane.showMessageDialog(null, ex.getMessage());
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(null, "Ano de nascimento deve ser um numero", "Erro", JOptionPane.ERROR_MESSAGE);
 			return false;
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "Erro ao criar funcionário.");
+			JOptionPane.showMessageDialog(null, "Erro ao criar funcionario.", "Erro", JOptionPane.ERROR_MESSAGE);
+			System.out.println("Erro em InputListenerRegister, line 87");
+			System.out.println(ex.getClass().toString());
 			System.out.println(ex.getMessage());
 			return false;
 		}
