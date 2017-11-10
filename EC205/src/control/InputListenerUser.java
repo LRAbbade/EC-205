@@ -89,6 +89,12 @@ public class InputListenerUser implements ActionListener
 		if (userScreen.isInMedicineScreen) userScreen.showPedidos();
 		else userScreen.showMedicamentos();
 	}
+	
+	private void help() 
+	{
+		userScreen.setVisible(false);
+		Main.openHelpScreen();
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) 
@@ -98,6 +104,7 @@ public class InputListenerUser implements ActionListener
 		if (e.getActionCommand().equals("trocar")) trocarUsuario();
 		if (e.getActionCommand().equals("adicionar")) adicionar();
 		if (e.getActionCommand().equals("pedidos")) pedidos();
+		if (e.getActionCommand().equals("help")) help();
 	}
 
 }

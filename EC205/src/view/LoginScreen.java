@@ -68,6 +68,8 @@ public class LoginScreen extends JFrame
 		btnSignIn.setBounds(183, 137, 170, 46);
 		panel.add(btnSignIn);
 		
+		getRootPane().setDefaultButton(btnSignIn);
+		
 		addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
